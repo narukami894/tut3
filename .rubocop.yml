@@ -1,0 +1,91 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  Include:
+    - Rakefile
+    - Gemfile
+    - config.ru
+  Exclude:
+    - db/schema.rb
+    - db/seeds/data/**/*
+    - vendor/**/*
+    - tmp/**/*
+    - Guardfile
+
+Rails:
+  Enabled: true
+
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+    - db/migrate/*.rb
+
+Metrics/ClassLength:
+  Max: 300
+
+Metrics/AbcSize:
+  Max: 25
+  Exclude:
+    - spec/**/*
+    - db/migrate/*.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+    - db/migrate/*.rb
+    - config/routes.rb
+
+Metrics/LineLength:
+  AllowHeredoc: true
+  AllowURI: true
+  Max: 120
+  IgnoredPatterns: ['\A#']
+  Exclude:
+    - spec/**/*
+    - config/routes.rb
+    - db/migrate/*.rb
+
+# 日本語でのコメントを許可
+AsciiComments:
+  Enabled: false
+
+ClassAndModuleChildren:
+  Enabled: false
+
+# クラスにコメントを残さない
+Documentation:
+  Enabled: false
+
+# 「and」「or」の使用を許可
+AndOr:
+  Enabled: false
+
+Style/BlockComments:
+  Exclude:
+    - spec/spec_helper.rb
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+# block内の最大行数の指定
+Metrics/BlockLength:
+  Max: 50
+
+TrailingBlankLines:
+  EnforcedStyle: final_newline
+
+Lint/EndAlignment:
+  AutoCorrect: true
+  EnforcedStyleAlignWith: variable
+
+Style/CaseIndentation:
+  EnforcedStyle: end
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - config/deploy.rb
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
