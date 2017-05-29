@@ -2,6 +2,7 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 
   attr_accessor :remember_token, :activation_token, :reset_token
+  before_create :create_activation_digest
   before_save :downcase_email
   has_many :microposts
   has_secure_password
@@ -11,6 +12,10 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+
+  def activate
+    update_columns(activated: true, activated_at: Time.zone.now)
+  end
 
   def authenticated?(attribute, token)
     # digest = self.remember.digest
@@ -29,6 +34,10 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, User.digest(remember_token))
   end
 
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+
   class << self
     def digest(string)
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
@@ -42,6 +51,11 @@ class User < ApplicationRecord
   end
 
   private
+
+  def create_activation_digest
+    self.activation_token  = User.new_token
+    self.activation_digest = User.digest(activation_token)
+  end
 
   def downcase_email
     email.downcase!
