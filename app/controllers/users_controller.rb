@@ -5,7 +5,6 @@ class UsersController < ApplicationController
   before_action :redirect_unless_activated, only:   %i[edit update destroy]
   before_action :admin_user,                only:   :destroy
 
-
   def new
     @user = User.new
   end
@@ -21,9 +20,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-
-  end
+  def show; end
 
   def edit; end
 
