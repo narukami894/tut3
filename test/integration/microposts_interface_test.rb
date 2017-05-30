@@ -44,5 +44,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     other_user.microposts.create!(content: 'A micropost')
     get root_path
     assert_match '1 micropost', response.body
+    assert_match @user.followers.count.to_s, response.body
+    assert_match @user.following.count.to_s, response.body
   end
 end

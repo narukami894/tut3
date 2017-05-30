@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user,            only:   %i[edit update index destroy]
+  before_action :logged_in_user,            except: %i[new create show]
   before_action :set_user,                  except: %i[new create index]
   before_action :correct_user,              only:   %i[edit update]
   before_action :redirect_unless_activated, only:   %i[edit update destroy]
@@ -45,9 +45,17 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
-  def following; end
+  def following
+    @title = 'Following'
+    @users = @user.following.paginate(page: params[:page])
+    render 'show_follow'
+  end
 
-  def followers; end
+  def followers
+    @title = 'Followers'
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
+  end
 
   private
 

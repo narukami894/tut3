@@ -3,7 +3,7 @@ require 'test_helper'
 class UserIndexTest < ActionDispatch::IntegrationTest
   def setup
     @admin = users(:michael)
-    @non_admin = users(:archer)
+    @non_admin = users(:hoge)
   end
 
   test 'index layout test' do
